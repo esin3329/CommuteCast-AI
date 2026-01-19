@@ -1,0 +1,7 @@
+{
+  "name": "Copy of CommuteCast",
+  "description": "Transform long news articles into personalized audio summaries for your daily commute. Stay informed while on the move with AI-generated briefings.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
