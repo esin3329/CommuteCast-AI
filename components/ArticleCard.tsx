@@ -409,16 +409,16 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                 className={`relative flex flex-col items-center justify-center p-3 rounded-2xl border-2 transition-all duration-300 active:scale-95 group ${
                   isActive 
                   ? `${meta.borderClass} ${meta.bgClass} ${meta.shadowClass} scale-105 z-10 shadow-lg` 
-                  : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50'
+                  : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800'
                 }`}
               >
                 <span className={`text-xl mb-1 transition-transform group-hover:scale-110 ${isActive ? 'animate-bounce' : ''}`}>
                   {meta.icon}
                 </span>
-                <span className={`text-[9px] font-black uppercase tracking-tighter ${isActive ? meta.activeClass : 'text-slate-400'}`}>
+                <span className={`text-[9px] font-black uppercase tracking-tighter ${isActive ? meta.activeClass : 'text-slate-400 dark:text-slate-500'}`}>
                   {v}
                 </span>
-                <span className={`text-[7px] font-bold text-slate-300 text-center leading-none mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity`}>
+                <span className={`text-[7px] font-bold text-slate-300 text-center leading-none mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity dark:text-slate-500`}>
                   {meta.desc}
                 </span>
                 {isActive && (
@@ -442,7 +442,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     if (!isSummarizing && !isGeneratingAudio) return null;
 
     return (
-      <div className="py-8 px-6 bg-slate-50/80 rounded-[2.5rem] border border-slate-200/60 shadow-inner animate-in fade-in slide-in-from-top-2 duration-500 overflow-hidden relative">
+      <div className="py-8 px-6 bg-slate-50/80 rounded-[2.5rem] border border-slate-200/60 shadow-inner animate-in fade-in slide-in-from-top-2 duration-500 overflow-hidden relative dark:bg-slate-900/70 dark:border-slate-800/80">
         <div className="absolute top-4 right-4 flex gap-1.5">
           {[...Array(3)].map((_, i) => (
             <div 
@@ -465,15 +465,15 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                   )}
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Stage 1: AI Summary</h4>
-                  <p className="text-[11px] font-bold text-slate-400">
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-300">Stage 1: AI Summary</h4>
+                  <p className="text-[11px] font-bold text-slate-400 dark:text-slate-400">
                     {isSummarizing ? t.summarizing.replace('{lang}', localLanguage) : 'Summary Created'}
                   </p>
                 </div>
               </div>
               {isSummarizing && <span className="text-[10px] font-black text-indigo-400 tracking-widest animate-pulse">EXTRACTING...</span>}
             </div>
-            <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden relative shadow-sm">
+            <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden relative shadow-sm dark:bg-slate-800">
               <div 
                 className={`absolute top-0 left-0 h-full bg-indigo-500 transition-all duration-1000 ease-in-out ${isSummarizing ? 'w-[85%]' : 'w-full'}`}
               />
@@ -487,8 +487,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Stage 2: Voice Generation</h4>
-                  <p className="text-[11px] font-bold text-slate-400">
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-300">Stage 2: Voice Generation</h4>
+                  <p className="text-[11px] font-bold text-slate-400 dark:text-slate-400">
                     {isGeneratingAudio ? t.craftingVoice : isSummarizing ? 'Waiting...' : 'Generating Audio...'}
                   </p>
                 </div>
@@ -505,7 +505,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                 </div>
               )}
             </div>
-            <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden relative shadow-sm">
+            <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden relative shadow-sm dark:bg-slate-800">
               <div 
                 className={`absolute top-0 left-0 h-full bg-indigo-500 transition-all duration-1000 ease-in-out ${isGeneratingAudio ? 'w-[65%]' : 'w-0'}`}
               />
@@ -517,28 +517,28 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   };
 
   return (
-    <div className={`bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col h-full group/card ${isActivePlayback ? 'border-indigo-400 ring-2 ring-indigo-50 shadow-indigo-100' : 'border-slate-100'}`}>
+    <div className={`bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col h-full group/card dark:bg-slate-900 ${isActivePlayback ? 'border-indigo-400 ring-2 ring-indigo-50 shadow-indigo-100 dark:ring-indigo-900/40' : 'border-slate-100 dark:border-slate-800'}`}>
       <div className="p-6 flex flex-col flex-1">
         <div className="flex justify-between items-start mb-2">
           <div className="flex items-center gap-3 flex-1 overflow-hidden">
             <div className="flex-1 min-w-0">
-              <h3 className={`text-lg font-bold line-clamp-2 leading-tight transition-colors ${isActivePlayback ? 'text-indigo-600' : 'text-slate-800 group-hover/card:text-indigo-600'}`}>{article.title}</h3>
+              <h3 className={`text-lg font-bold line-clamp-2 leading-tight transition-colors ${isActivePlayback ? 'text-indigo-600' : 'text-slate-800 group-hover/card:text-indigo-600 dark:text-slate-100 dark:group-hover/card:text-indigo-300'}`}>{article.title}</h3>
               <div className="flex flex-wrap items-center gap-3 mt-1">
-                {article.source && <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2 py-0.5 rounded">{article.source}</span>}
+                {article.source && <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2 py-0.5 rounded dark:text-indigo-300 dark:bg-indigo-950/40">{article.source}</span>}
                 <div className="flex items-center gap-2.5">
-                  <button onClick={() => setIsFullTextOpen(true)} className="text-xs font-medium text-slate-400 hover:text-indigo-500 transition-colors flex items-center gap-1">{t.fullText}</button>
-                  <button onClick={() => setIsHistoryOpen(true)} className="text-xs font-medium text-slate-400 hover:text-indigo-500 transition-colors flex items-center gap-1">{t.history}</button>
+                  <button onClick={() => setIsFullTextOpen(true)} className="text-xs font-medium text-slate-400 hover:text-indigo-500 transition-colors flex items-center gap-1 dark:text-slate-400 dark:hover:text-indigo-300">{t.fullText}</button>
+                  <button onClick={() => setIsHistoryOpen(true)} className="text-xs font-medium text-slate-400 hover:text-indigo-500 transition-colors flex items-center gap-1 dark:text-slate-400 dark:hover:text-indigo-300">{t.history}</button>
                 </div>
               </div>
             </div>
           </div>
-          <button onClick={() => onRemove(article.id)} className="text-slate-300 hover:text-red-500 transition-colors p-1 ml-2 shrink-0">
+          <button onClick={() => onRemove(article.id)} className="text-slate-300 hover:text-red-500 transition-colors p-1 ml-2 shrink-0 dark:text-slate-500 dark:hover:text-red-400">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
 
         <div className="mt-2 mb-4">
-          <p className="text-xs text-slate-500 leading-relaxed line-clamp-3 font-medium italic">{contentPreview}</p>
+          <p className="text-xs text-slate-500 leading-relaxed line-clamp-3 font-medium italic dark:text-slate-400">{contentPreview}</p>
         </div>
 
         <div className="mt-auto space-y-4">
@@ -547,13 +547,13 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
               <div className="flex items-center justify-between">
                 <button 
                   onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                  className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-2 transition-colors ${isSettingsOpen ? 'text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}
+                  className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-2 transition-colors ${isSettingsOpen ? 'text-indigo-600' : 'text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-200'}`}
                 >
                   <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${isSettingsOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M9 5l7 7-7 7" /></svg>
                   {t.audioSettings}
                 </button>
                 {isSettingsOpen && (
-                  <span className="text-[10px] font-bold text-slate-300 italic">{VOICE_META[localVoice].desc} reporter style</span>
+                  <span className="text-[10px] font-bold text-slate-300 italic dark:text-slate-500">{VOICE_META[localVoice].desc} reporter style</span>
                 )}
               </div>
 
@@ -573,17 +573,17 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
           {summary.status === 'ready' && (
             <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
-              <div className={`p-5 rounded-3xl border transition-colors duration-500 ${isActivePlayback ? 'bg-indigo-50/50 border-indigo-200 shadow-inner' : 'bg-slate-50 border-slate-100'}`}>
+              <div className={`p-5 rounded-3xl border transition-colors duration-500 ${isActivePlayback ? 'bg-indigo-50/50 border-indigo-200 shadow-inner dark:bg-indigo-950/40 dark:border-indigo-900' : 'bg-slate-50 border-slate-100 dark:bg-slate-950 dark:border-slate-800'}`}>
                 <div className="flex items-center gap-3 mb-3">
                   <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm shadow-sm ${VOICE_META[localVoice].bgClass} ${VOICE_META[localVoice].borderClass} border`}>
                     {VOICE_META[localVoice].icon}
                   </div>
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{localVoice} Reporting</span>
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest dark:text-slate-400">{localVoice} Reporting</span>
                 </div>
                 
-                <p className="text-base text-slate-700 italic font-medium leading-relaxed">"{summary.summaryText}"</p>
+                <p className="text-base text-slate-700 italic font-medium leading-relaxed dark:text-slate-200">"{summary.summaryText}"</p>
                 
-                <div className="mt-4 flex flex-wrap justify-between items-center gap-4 border-t border-slate-200/60 pt-4">
+                <div className="mt-4 flex flex-wrap justify-between items-center gap-4 border-t border-slate-200/60 pt-4 dark:border-slate-800">
                    <div className="flex items-center gap-2">
                      <button onClick={togglePlayback} className="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-md active:scale-95 transition-transform hover:bg-indigo-700">
                        {isPlaying ? (
@@ -592,12 +592,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                        )}
                      </button>
-                     <div className="text-[10px] font-black tabular-nums text-slate-400 uppercase tracking-widest">{formatTime(currentTime)} / {formatTime(duration)}</div>
+                     <div className="text-[10px] font-black tabular-nums text-slate-400 uppercase tracking-widest dark:text-slate-500">{formatTime(currentTime)} / {formatTime(duration)}</div>
                    </div>
 
                    <div className="flex flex-col gap-2 items-end">
                      <div className="flex items-center gap-1.5">
-                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mr-1">Quality:</span>
+                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-tighter mr-1 dark:text-slate-500">Quality:</span>
                        <div className="flex items-center" onMouseLeave={() => setHoverRating(null)}>
                          {[1, 2, 3, 4, 5].map((star) => (
                            <button
@@ -610,7 +610,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                                className={`w-4 h-4 transition-colors ${
                                  star <= (hoverRating || starRating || 0) 
                                    ? 'text-amber-400 fill-current' 
-                                   : 'text-slate-200 fill-none'
+                                   : 'text-slate-200 fill-none dark:text-slate-700'
                                }`} 
                                viewBox="0 0 24 24" 
                                stroke="currentColor" 
@@ -624,17 +624,17 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                      </div>
 
                      <div className="flex items-center gap-3">
-                       <div className="flex bg-white rounded-lg border border-slate-100 p-0.5 shadow-sm">
+                       <div className="flex bg-white rounded-lg border border-slate-100 p-0.5 shadow-sm dark:bg-slate-900 dark:border-slate-800">
                          <button 
                            onClick={() => handleFeedback('positive')} 
-                           className={`p-1.5 rounded-md transition-all ${feedback === 'positive' ? 'bg-indigo-600 text-white shadow-indigo-100' : 'text-slate-300 hover:text-indigo-400'}`} 
+                           className={`p-1.5 rounded-md transition-all ${feedback === 'positive' ? 'bg-indigo-600 text-white shadow-indigo-100' : 'text-slate-300 hover:text-indigo-400 dark:text-slate-500 dark:hover:text-indigo-300'}`} 
                            title="Accurate"
                          >
                            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" /></svg>
                          </button>
                          <button 
                            onClick={() => handleFeedback('negative')} 
-                           className={`p-1.5 rounded-md transition-all ${feedback === 'negative' ? 'bg-rose-500 text-white shadow-rose-100' : 'text-slate-300 hover:text-rose-400'}`} 
+                           className={`p-1.5 rounded-md transition-all ${feedback === 'negative' ? 'bg-rose-500 text-white shadow-rose-100' : 'text-slate-300 hover:text-rose-400 dark:text-slate-500 dark:hover:text-rose-300'}`} 
                            title="Inaccurate"
                          >
                            <svg className="w-3.5 h-3.5 rotate-180" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" /></svg>
@@ -643,7 +643,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                        {undoStack.length > 0 && (
                          <button 
                            onClick={handleUndoAction} 
-                           className="text-[9px] font-black uppercase text-indigo-500 hover:text-indigo-700 transition-colors flex items-center gap-1 group/undo animate-in zoom-in duration-200"
+                           className="text-[9px] font-black uppercase text-indigo-500 hover:text-indigo-700 transition-colors flex items-center gap-1 group/undo animate-in zoom-in duration-200 dark:text-indigo-300 dark:hover:text-indigo-200"
                            title={t.undo}
                          >
                            <svg className="w-3 h-3 transition-transform group-hover/undo:-rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -652,18 +652,18 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                            {t.undo}
                          </button>
                        )}
-                       {undoStack.length === 0 && (feedback || starRating) && (
-                         <button 
-                           onClick={() => { setFeedback(null); setStarRating(null); }}
-                           className="text-[9px] font-black uppercase text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1"
-                         >
-                           Reset
-                         </button>
-                       )}
+                        {undoStack.length === 0 && (feedback || starRating) && (
+                          <button 
+                            onClick={() => { setFeedback(null); setStarRating(null); }}
+                            className="text-[9px] font-black uppercase text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 dark:text-slate-500 dark:hover:text-indigo-300"
+                          >
+                            Reset
+                          </button>
+                        )}
                      </div>
                    </div>
                 </div>
-                <div className="mt-4 h-1 w-full bg-slate-200 rounded-full overflow-hidden">
+                <div className="mt-4 h-1 w-full bg-slate-200 rounded-full overflow-hidden dark:bg-slate-800">
                   <div 
                     className="h-full bg-indigo-500 transition-all duration-100 ease-linear"
                     style={{ width: `${(currentTime / (duration || 1)) * 100}%` }}
@@ -677,50 +677,50 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
       {isFullTextOpen && (
         <div className="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-2xl rounded-[2rem] p-8 overflow-y-auto max-h-[90vh] animate-in zoom-in-95 duration-300">
-            <h2 className="text-xl font-black mb-4">{article.title}</h2>
-            <div className="text-slate-600 whitespace-pre-wrap leading-relaxed">{article.content}</div>
-            <button onClick={() => setIsFullTextOpen(false)} className="mt-8 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold active:scale-95 transition-transform">Close</button>
+          <div className="bg-white w-full max-w-2xl rounded-[2rem] p-8 overflow-y-auto max-h-[90vh] animate-in zoom-in-95 duration-300 dark:bg-slate-900">
+            <h2 className="text-xl font-black mb-4 dark:text-slate-100">{article.title}</h2>
+            <div className="text-slate-600 whitespace-pre-wrap leading-relaxed dark:text-slate-300">{article.content}</div>
+            <button onClick={() => setIsFullTextOpen(false)} className="mt-8 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold active:scale-95 transition-transform dark:bg-slate-100 dark:text-slate-900">Close</button>
           </div>
         </div>
       )}
       
       {isHistoryOpen && (
         <div className="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-lg rounded-[2rem] p-8 animate-in zoom-in-95 duration-300">
+          <div className="bg-white w-full max-w-lg rounded-[2rem] p-8 animate-in zoom-in-95 duration-300 dark:bg-slate-900">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-black">{t.summaryHistory}</h2>
+              <h2 className="text-xl font-black dark:text-slate-100">{t.summaryHistory}</h2>
               {article.summaryHistory && article.summaryHistory.length > 0 && (
                 <button onClick={handleClearHistory} className="text-[10px] font-black text-red-500 uppercase hover:underline">Clear all</button>
               )}
             </div>
             <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
               {!article.summaryHistory || article.summaryHistory.length === 0 ? (
-                <p className="text-center text-slate-400 py-10 font-medium italic">{t.noHistory}</p>
+                <p className="text-center text-slate-400 py-10 font-medium italic dark:text-slate-500">{t.noHistory}</p>
               ) : (
                 article.summaryHistory.map(entry => (
-                  <div key={entry.id} className="p-4 border border-slate-100 rounded-2xl flex justify-between items-center bg-slate-50 hover:bg-white hover:border-indigo-100 hover:shadow-sm transition-all">
+                  <div key={entry.id} className="p-4 border border-slate-100 rounded-2xl flex justify-between items-center bg-slate-50 hover:bg-white hover:border-indigo-100 hover:shadow-sm transition-all dark:bg-slate-950 dark:border-slate-800 dark:hover:bg-slate-900">
                     <div className="min-w-0 flex-1">
                       <p className="text-[10px] font-black text-indigo-500 uppercase">{new Date(entry.timestamp).toLocaleString()}</p>
                       <div className="flex items-center gap-1 mb-1">
                         {[1, 2, 3, 4, 5].map(s => (
                           <svg 
                             key={s} 
-                            className={`w-2.5 h-2.5 ${s <= (entry.starRating || 0) ? 'text-amber-400 fill-current' : 'text-slate-200'}`} 
+                            className={`w-2.5 h-2.5 ${s <= (entry.starRating || 0) ? 'text-amber-400 fill-current' : 'text-slate-200 dark:text-slate-700'}`} 
                             viewBox="0 0 24 24"
                           >
                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                           </svg>
                         ))}
                       </div>
-                      <p className="text-xs text-slate-600 italic line-clamp-1">"{entry.summaryText}"</p>
+                      <p className="text-xs text-slate-600 italic line-clamp-1 dark:text-slate-300">"{entry.summaryText}"</p>
                     </div>
                     <button onClick={() => handleRestore(entry)} className="ml-4 px-3 py-1.5 bg-indigo-600 text-white text-[10px] font-black rounded-lg uppercase shadow-sm active:scale-95 transition-transform">{t.restore}</button>
                   </div>
                 ))
               )}
             </div>
-            <button onClick={() => setIsHistoryOpen(false)} className="mt-8 w-full py-4 bg-slate-100 text-slate-600 rounded-xl font-bold active:scale-95 transition-transform">Close</button>
+            <button onClick={() => setIsHistoryOpen(false)} className="mt-8 w-full py-4 bg-slate-100 text-slate-600 rounded-xl font-bold active:scale-95 transition-transform dark:bg-slate-800 dark:text-slate-200">Close</button>
           </div>
         </div>
       )}

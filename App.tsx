@@ -28,12 +28,29 @@ const App: React.FC = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   // Drag and Drop state
   const [draggedItemIndex, setDraggedItemIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   const t = translations[selectedLanguage];
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('commutecast_theme') as 'light' | 'dark' | null;
+    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    setTheme(storedTheme ?? (prefersDark ? 'dark' : 'light'));
+  }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('commutecast_theme', theme);
+  }, [theme]);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -223,8 +240,8 @@ const App: React.FC = () => {
   const currentList = activeTab === 'queue' ? articles : savedArticles;
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pb-20">
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pb-20 dark:bg-slate-950 dark:text-slate-100">
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 dark:bg-slate-950/80 dark:border-slate-800">
         <div className="max-w-4xl mx-auto px-4 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200 rotate-3">
@@ -236,21 +253,21 @@ const App: React.FC = () => {
               <h1 className="text-xl font-black tracking-tight bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
                 {t.appName}
               </h1>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.tagline}</p>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest dark:text-slate-400">{t.tagline}</p>
             </div>
           </div>
           
           <div className="flex items-center gap-3">
-            <div className="flex bg-slate-100 p-1 rounded-xl">
+            <div className="flex bg-slate-100 p-1 rounded-xl dark:bg-slate-800">
               <button 
                 onClick={() => { setActiveTab('queue'); setActivePlaybackId(null); }}
-                className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-tighter rounded-lg transition-all ${activeTab === 'queue' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-tighter rounded-lg transition-all ${activeTab === 'queue' ? 'bg-white text-indigo-600 shadow-sm dark:bg-slate-900' : 'text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-200'}`}
               >
                 {t.yourQueue}
               </button>
               <button 
                 onClick={() => { setActiveTab('library'); setActivePlaybackId(null); }}
-                className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-tighter rounded-lg transition-all ${activeTab === 'library' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-tighter rounded-lg transition-all ${activeTab === 'library' ? 'bg-white text-indigo-600 shadow-sm dark:bg-slate-900' : 'text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-200'}`}
               >
                 {t.library}
               </button>
@@ -259,13 +276,29 @@ const App: React.FC = () => {
               <select 
                 value={selectedLanguage} 
                 onChange={(e) => setSelectedLanguage(e.target.value as Language)}
-                className="text-xs font-bold bg-slate-100 border-none rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 cursor-pointer appearance-none text-slate-600"
+                className="text-xs font-bold bg-slate-100 border-none rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 cursor-pointer appearance-none text-slate-600 dark:bg-slate-800 dark:text-slate-200"
               >
                 {Object.values(Language).map(l => (
                   <option key={l} value={l}>{l}</option>
                 ))}
               </select>
             </div>
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="w-10 h-10 rounded-xl bg-slate-100 text-slate-500 hover:text-slate-700 hover:bg-slate-200 transition-colors flex items-center justify-center dark:bg-slate-800 dark:text-slate-300 dark:hover:text-white"
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              type="button"
+            >
+              {theme === 'dark' ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364l-1.414-1.414M7.05 7.05 5.636 5.636m12.728 0-1.414 1.414M7.05 16.95l-1.414 1.414M12 7a5 5 0 100 10 5 5 0 000-10z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
       </header>
@@ -273,16 +306,16 @@ const App: React.FC = () => {
       <main className="max-w-4xl mx-auto px-4 mt-8">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">
+            <h2 className="text-2xl font-black text-slate-800 tracking-tight dark:text-slate-100">
               {activeTab === 'queue' ? t.yourQueue : t.library}
             </h2>
-            <p className="text-sm text-slate-400 font-medium">
+            <p className="text-sm text-slate-400 font-medium dark:text-slate-400">
               {activeTab === 'queue' ? t.queueSub : `${savedArticles.length} ${t.saved}`}
             </p>
           </div>
           <button 
             onClick={() => setShowAddForm(!showAddForm)}
-            className={`px-5 py-2.5 rounded-2xl font-bold text-sm flex items-center gap-2 transition-all shadow-lg ${showAddForm ? 'bg-red-50 text-red-500 shadow-red-100' : 'bg-slate-800 text-white hover:bg-slate-900 shadow-slate-200'}`}
+            className={`px-5 py-2.5 rounded-2xl font-bold text-sm flex items-center gap-2 transition-all shadow-lg ${showAddForm ? 'bg-red-50 text-red-500 shadow-red-100 dark:bg-red-950/40 dark:text-red-300' : 'bg-slate-800 text-white hover:bg-slate-900 shadow-slate-200 dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-white'}`}
           >
             {showAddForm ? t.close : (
               <>
@@ -294,9 +327,9 @@ const App: React.FC = () => {
         </div>
 
         {showAddForm && (
-          <form onSubmit={addArticle} className="bg-white p-8 rounded-3xl shadow-2xl border border-indigo-50 mb-10 animate-in zoom-in-95 duration-300 relative overflow-hidden">
+          <form onSubmit={addArticle} className="bg-white p-8 rounded-3xl shadow-2xl border border-indigo-50 mb-10 animate-in zoom-in-95 duration-300 relative overflow-hidden dark:bg-slate-900 dark:border-slate-800">
             {isFetching && (
-              <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 flex flex-col items-center justify-center animate-in fade-in duration-300">
+              <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] z-10 flex flex-col items-center justify-center animate-in fade-in duration-300 dark:bg-slate-900/70">
                 <div className="w-12 h-12 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin mb-4"></div>
                 <p className="text-indigo-600 font-black text-xs uppercase tracking-widest animate-pulse">Extracting Story...</p>
               </div>
@@ -314,7 +347,7 @@ const App: React.FC = () => {
                       if (fetchError) setFetchError(null);
                     }}
                     placeholder={t.placeholderUrl}
-                    className="flex-1 px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all text-sm font-medium"
+                    className="flex-1 px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all text-sm font-medium dark:bg-slate-950 dark:border-slate-800 dark:text-slate-100"
                     disabled={isFetching}
                   />
                   <button
@@ -348,10 +381,10 @@ const App: React.FC = () => {
                       value={newTitle}
                       onChange={(e) => setNewTitle(e.target.value)}
                       placeholder={t.placeholderTitle}
-                      className={`w-full px-5 py-4 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm font-medium ${isFetching ? 'bg-slate-100' : 'bg-slate-50 focus:bg-white'}`}
-                      required
-                      disabled={isFetching}
-                    />
+                    className={`w-full px-5 py-4 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm font-medium ${isFetching ? 'bg-slate-100 dark:bg-slate-800' : 'bg-slate-50 focus:bg-white dark:bg-slate-950 dark:focus:bg-slate-900'} dark:border-slate-800 dark:text-slate-100`}
+                    required
+                    disabled={isFetching}
+                  />
                     {isFetching && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[shimmer_1.5s_infinite] rounded-2xl"></div>}
                   </div>
                 </div>
@@ -363,9 +396,9 @@ const App: React.FC = () => {
                       value={newSource}
                       onChange={(e) => setNewSource(e.target.value)}
                       placeholder={t.placeholderSource}
-                      className={`w-full px-5 py-4 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm font-medium ${isFetching ? 'bg-slate-100' : 'bg-slate-50 focus:bg-white'}`}
-                      disabled={isFetching}
-                    />
+                    className={`w-full px-5 py-4 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm font-medium ${isFetching ? 'bg-slate-100 dark:bg-slate-800' : 'bg-slate-50 focus:bg-white dark:bg-slate-950 dark:focus:bg-slate-900'} dark:border-slate-800 dark:text-slate-100`}
+                    disabled={isFetching}
+                  />
                     {isFetching && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[shimmer_1.5s_infinite] rounded-2xl"></div>}
                   </div>
                 </div>
@@ -383,7 +416,7 @@ const App: React.FC = () => {
                     value={newContent}
                     onChange={(e) => setNewContent(e.target.value)}
                     placeholder={t.placeholderContent}
-                    className={`w-full px-5 py-4 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all h-40 resize-none text-sm font-medium leading-relaxed ${isFetching ? 'bg-slate-100' : 'bg-slate-50 focus:bg-white'}`}
+                    className={`w-full px-5 py-4 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all h-40 resize-none text-sm font-medium leading-relaxed ${isFetching ? 'bg-slate-100 dark:bg-slate-800' : 'bg-slate-50 focus:bg-white dark:bg-slate-950 dark:focus:bg-slate-900'} dark:border-slate-800 dark:text-slate-100`}
                     required
                     disabled={isFetching}
                   />
@@ -403,14 +436,14 @@ const App: React.FC = () => {
         )}
 
         {currentList.length === 0 ? (
-          <div className="text-center py-32 bg-white rounded-[2.5rem] border-2 border-dashed border-slate-200">
-            <div className="w-20 h-20 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-6 rotate-6 group hover:rotate-0 transition-transform duration-500">
+          <div className="text-center py-32 bg-white rounded-[2.5rem] border-2 border-dashed border-slate-200 dark:bg-slate-900 dark:border-slate-800">
+            <div className="w-20 h-20 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-6 rotate-6 group hover:rotate-0 transition-transform duration-500 dark:bg-slate-800">
               <svg className="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
             </div>
-            <h3 className="text-xl font-black text-slate-600 tracking-tight">
+            <h3 className="text-xl font-black text-slate-600 tracking-tight dark:text-slate-200">
               {activeTab === 'queue' ? t.emptyQueue : t.emptyLibrary}
             </h3>
-            <p className="text-slate-400 max-w-xs mx-auto mt-2 font-medium">
+            <p className="text-slate-400 max-w-xs mx-auto mt-2 font-medium dark:text-slate-400">
               {activeTab === 'queue' ? t.emptyQueueSub : t.emptyLibrarySub}
             </p>
           </div>
