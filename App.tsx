@@ -28,19 +28,20 @@ const App: React.FC = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const getInitialTheme = (): 'light' | 'dark' => {
+    if (typeof window === 'undefined') return 'light';
+    const storedTheme = localStorage.getItem('commutecast_theme');
+    if (storedTheme === 'light' || storedTheme === 'dark') return storedTheme;
+    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    return prefersDark ? 'dark' : 'light';
+  };
+  const [theme, setTheme] = useState<'light' | 'dark'>(getInitialTheme);
 
   // Drag and Drop state
   const [draggedItemIndex, setDraggedItemIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   const t = translations[selectedLanguage];
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('commutecast_theme') as 'light' | 'dark' | null;
-    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-    setTheme(storedTheme ?? (prefersDark ? 'dark' : 'light'));
-  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
