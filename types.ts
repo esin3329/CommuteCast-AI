@@ -18,6 +18,7 @@ export interface SummaryHistoryEntry {
   pitch: number;
   timestamp: number;
   feedback?: 'positive' | 'negative';
+  starRating?: number;
 }
 
 export interface AudioSummary {

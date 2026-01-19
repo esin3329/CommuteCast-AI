@@ -1,9 +1,9 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { NewsArticle, VoiceName, Language } from './types';
-import ArticleCard from './components/ArticleCard';
-import { fetchArticleContentFromUrl } from './services/geminiService';
-import { translations } from './translations';
+import { NewsArticle, VoiceName, Language } from './types.ts';
+import ArticleCard from './components/ArticleCard.tsx';
+import { fetchArticleContentFromUrl } from './services/geminiService.ts';
+import { translations } from './translations.ts';
 
 const TRUSTED_NEWS_DOMAINS = [
   'bbc.com', 'bbc.co.uk', 'nytimes.com', 'theguardian.com', 'reuters.com', 
@@ -164,7 +164,6 @@ const App: React.FC = () => {
     const index = articles.findIndex(a => a.id === id);
     if (index !== -1 && index < articles.length - 1) {
       const nextArticle = articles[index + 1];
-      // Automatically play next if it has a summary ready
       if (nextArticle.currentSummary?.audioBlob) {
         setActivePlaybackId(nextArticle.id);
       } else {
@@ -185,11 +184,9 @@ const App: React.FC = () => {
     }
   }, [activePlaybackId]);
 
-  // Drag and Drop Handlers
   const onDragStart = (e: React.DragEvent, index: number) => {
     setDraggedItemIndex(index);
     e.dataTransfer.effectAllowed = 'move';
-    // Small delay to hide the original item but keep the ghost image
     setTimeout(() => {
         const target = e.target as HTMLElement;
         if (target) target.classList.add('opacity-40', 'scale-95');
@@ -227,7 +224,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20">
-      {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-4xl mx-auto px-4 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">

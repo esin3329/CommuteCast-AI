@@ -1,11 +1,7 @@
+
 import { GoogleGenAI, Modality, Type } from "@google/genai";
-import { VoiceName, Language } from "../types";
+import { VoiceName, Language } from "../types.ts";
 
-// Removed global API_KEY constant to adhere to guideline: use process.env.API_KEY directly.
-
-/**
- * Summarizes news article content in a specific language, optimized for TTS.
- */
 export const getSummarizedText = async (articleContent: string, targetLanguage: Language = Language.English): Promise<string> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const response = await ai.models.generateContent({
@@ -23,9 +19,6 @@ export const getSummarizedText = async (articleContent: string, targetLanguage: 
   return response.text || 'Failed to generate summary.';
 };
 
-/**
- * Generates audio data for a summary using Gemini TTS.
- */
 export const generateSpeech = async (text: string, voice: VoiceName = VoiceName.Kore, pitch: number = 0): Promise<string> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const response = await ai.models.generateContent({
@@ -49,15 +42,9 @@ export const generateSpeech = async (text: string, voice: VoiceName = VoiceName.
   return base64Audio;
 };
 
-/**
- * Extracts headline and content from a URL using Search Grounding.
- * Note: Guidelines state response.text may not be JSON when using search tools.
- */
 export const fetchArticleContentFromUrl = async (url: string): Promise<{ title: string; content: string }> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
-  // Use a two-step approach or clear format parsing because Search Grounding 
-  // output may not be valid JSON if used with responseMimeType.
   const response = await ai.models.generateContent({
     model: 'gemini-3-flash-preview',
     contents: `Please visit this URL and extract the main headline and full article content: ${url}. 
@@ -70,13 +57,6 @@ export const fetchArticleContentFromUrl = async (url: string): Promise<{ title: 
   });
 
   const text = response.text || '';
-  
-  // Extract URLs from groundingChunks as per MUST ALWAYS guideline
-  const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
-  if (groundingChunks) {
-    console.debug('Grounding Chunks:', groundingChunks);
-  }
-
   const headlineMatch = text.match(/HEADLINE:\s*(.*)/i);
   const contentMatch = text.match(/CONTENT:\s*([\s\S]*)/i);
 
